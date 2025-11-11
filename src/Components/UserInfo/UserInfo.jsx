@@ -49,6 +49,7 @@ function UserInfo({ onAdd, editData }) {
     let tempErrors = {};
     let isValid = true;
 
+    // Username validation
     if (!data.user) {
       tempErrors.user = "Username is required";
       isValid = false;
@@ -62,6 +63,7 @@ function UserInfo({ onAdd, editData }) {
       tempErrors.user = "";
     }
 
+    // Email validation
     if (!data.email) {
       tempErrors.email = "Email is required";
       isValid = false;
@@ -72,6 +74,7 @@ function UserInfo({ onAdd, editData }) {
       tempErrors.email = "";
     }
 
+    // Job validation
     if (!data.job) {
       tempErrors.job = "Job is required";
       isValid = false;
@@ -79,11 +82,12 @@ function UserInfo({ onAdd, editData }) {
       tempErrors.job = "";
     }
 
+    // Phone validation (10 to 15 digits)
     if (!data.phone) {
       tempErrors.phone = "Phone is required";
       isValid = false;
-    } else if (data.phone.toString().length < 10) {
-      tempErrors.phone = "Phone must be at least 10 digits";
+    } else if (!/^\d{10,15}$/.test(data.phone)) {
+      tempErrors.phone = "Phone must be 10 to 15 digits";
       isValid = false;
     } else {
       tempErrors.phone = "";
@@ -171,11 +175,12 @@ function UserInfo({ onAdd, editData }) {
           <label>
             Phone:
             <input
-              type="number"
+              type="text"
               name="phone"
               placeholder="0123456789"
               value={data.phone}
               onChange={changeHandler}
+              maxLength={15}
             />
           </label>
           {errors.phone && (

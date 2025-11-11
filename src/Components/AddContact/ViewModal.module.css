@@ -1,0 +1,87 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 320px;
+  max-width: 95vw;
+  padding: 30px 25px 25px 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+}
+
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #3498db;
+  box-shadow: 0 0 12px rgba(52, 152, 219, 0.7);
+  transition: transform 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.avatar:hover {
+  transform: scale(1.1);
+}
+
+.userName {
+  font-size: 1.8rem;
+  color: #3498db;
+  margin: 0;
+  font-weight: 700;
+}
+
+.infoRow {
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+  color: #444;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start;
+  font-weight: 500;
+}
+
+.infoRow strong {
+  min-width: 60px;
+  color: #666;
+}
+
+.infoRow span {
+  flex-grow: 1;
+  color: #222;
+}
+
+.closeBtn {
+  margin-top: 20px;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 8px;
+  background-color: #3498db;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center;
+}
+
+.closeBtn:hover {
+  background-color: #217dbb;
+  transform: scale(1.05);
+}

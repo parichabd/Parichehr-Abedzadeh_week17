@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0,0,0,0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,7 @@
   background: #fff;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   width: 300px;
   text-align: center;
 }
@@ -42,10 +42,6 @@
   cursor: pointer;
 }
 
-.confirm:hover {
-  transform: scale(1.05);
-}
-
-.cancel:hover {
+.confirm:hover, .cancel:hover {
   transform: scale(1.05);
 }

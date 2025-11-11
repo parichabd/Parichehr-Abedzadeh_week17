@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ConfirmModal from "./ConfirmModal";
+import ViewModal from "./ViewModal";
 import styles from "./AddContact.module.css";
-import ConfirmModal from "./ConfirmModal"; // 👈 ایمپورت مودال جدید
 
 function AddContact({
   contacts,
@@ -15,29 +16,22 @@ function AddContact({
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  // برای مودال
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [contactToDelete, setContactToDelete] = useState(null);
+  // مدال حذف تکی
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  // مدال نمایش جزئیات
+  const [viewContact, setViewContact] = useState(null);
 
-  // وقتی کاربر روی دکمه حذف کلیک می‌کند
-  const handleDeleteClick = (index) => {
-    setContactToDelete(index);
-    setShowConfirm(true);
-  };
-
-  // تأیید حذف
   const confirmDelete = () => {
-    if (contactToDelete !== null) {
-      onDelete(contactToDelete);
-    }
-    setShowConfirm(false);
-    setContactToDelete(null);
+    onDelete(deleteIndex);
+    setDeleteIndex(null);
   };
 
-  // لغو حذف
-  const cancelDelete = () => {
-    setShowConfirm(false);
-    setContactToDelete(null);
+  const cancelDelete = () => setDeleteIndex(null);
+
+  // حذف گروهی بدون مدال
+  const handleDeleteSelected = () => {
+    if (selectedContacts.length === 0) return;
+    onDeleteSelected();
   };
 
   return (
@@ -46,10 +40,7 @@ function AddContact({
         <h1 className={styles.AddInfo}>Contact Manager</h1>
 
         <div>
-          <button
-            className={styles.buttonInfo}
-            onClick={() => navigate("/add")}
-          >
+          <button className={styles.buttonInfo} onClick={() => navigate("/add")}>
             + New
           </button>
 
@@ -66,7 +57,7 @@ function AddContact({
               {selectedContacts.length > 0 && (
                 <button
                   className={styles.buttonInfo}
-                  onClick={onDeleteSelected}
+                  onClick={handleDeleteSelected}
                   style={{ marginLeft: "10px", backgroundColor: "orange" }}
                 >
                   Delete Selected ({selectedContacts.length})
@@ -78,16 +69,13 @@ function AddContact({
       </div>
 
       <p className={styles.paragInfo}>
-        Welcome to contact list manager application. Please navigate through
-        different areas.
+        Welcome to contact list manager application. Please navigate through different areas.
       </p>
 
       <div className={styles.cardsContainer}>
         <div className={styles.cards}>
           {contacts.length === 0 && (
-            <p className={styles.cardParagraphNoContatct}>
-              NO CONTACTS ADDED YET!!
-            </p>
+            <p className={styles.cardParagraphNoContatct}>NO CONTACTS ADDED YET!!</p>
           )}
 
           {contacts.map((contact, index) => (
@@ -116,7 +104,7 @@ function AddContact({
                 <div className={styles.cardActions}>
                   <button
                     className={`${styles.iconButton} ${styles.delete}`}
-                    onClick={() => handleDeleteClick(index)} // ← اینجا مودال فعال می‌شه
+                    onClick={() => setDeleteIndex(index)}
                   >
                     <i className="fa-solid fa-trash"></i>
                   </button>
@@ -128,11 +116,7 @@ function AddContact({
                   </button>
                   <button
                     className={`${styles.iconButton} ${styles.view}`}
-                    onClick={() =>
-                      alert(
-                        `👤 ${contact.user}\n📧 ${contact.email}\n💼 ${contact.job}\n📱 ${contact.phone}`
-                      )
-                    }
+                    onClick={() => setViewContact(contact)}
                   >
                     <i className="fa-solid fa-eye"></i>
                   </button>
@@ -140,11 +124,7 @@ function AddContact({
               )}
 
               {contact.img && (
-                <img
-                  src={contact.img}
-                  alt={contact.user}
-                  className={styles.cardImg}
-                />
+                <img src={contact.img} alt={contact.user} className={styles.cardImg} />
               )}
               <h3 className={styles.contactsHeader}>{contact.user}</h3>
               <p className={styles.contactsEmails}>
@@ -161,12 +141,20 @@ function AddContact({
         </div>
       </div>
 
-      {/* ✅ نمایش مودال تأیید حذف */}
-      {showConfirm && (
+      {/* مودال حذف تکی */}
+      {deleteIndex !== null && (
         <ConfirmModal
           message="Are you sure you want to delete this contact?"
           onConfirm={confirmDelete}
           onCancel={cancelDelete}
+        />
+      )}
+
+      {/* مودال نمایش اطلاعات */}
+      {viewContact && (
+        <ViewModal
+          contact={viewContact}
+          onClose={() => setViewContact(null)}
         />
       )}
     </div>
